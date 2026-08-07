@@ -4,6 +4,7 @@ const app = express()
 const connectDB = require("./config/db")
 const authRoutes = require("./routes/authRoutes")
 const userRoutes = require("./routes/userRoutes")
+const productRoutes = require("./routes/productRoutes")
 dotenv.config()
 
 connectDB()
@@ -15,6 +16,8 @@ app.use(express.json())
 app.use("/api/auth", authRoutes);
 
 app.use("/api/user", userRoutes);
+
+app.use("/api/product", productRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
