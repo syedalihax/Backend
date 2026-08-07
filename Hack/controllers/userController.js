@@ -1,7 +1,7 @@
 const getProfile = (req, res) => {
     res.json({
         success: true,
-        message: req.user 
+        data: req.user 
     });
 }
 

@@ -14,9 +14,9 @@ const registerUser = async (req, res) => {
             })
         }
         if (!validator.isEmail(email)) {
-            return res.status(400).json({
+            return res.status(401).json({
                 success: false,
-                message: "Please enter a valid email."
+                message: "Invalid email or password"
             })
         }
 
