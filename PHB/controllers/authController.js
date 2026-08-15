@@ -3,7 +3,6 @@ const UserModel = require("../models/User")
 const validator = require("validator")
 const bcrypt = require("bcrypt")
 
-const { default: isEmail } = require("validator/lib/isEmail")
 const register = async (req, res) => {
     let { name, email, password } = req.body
     const role = "user"
@@ -90,5 +89,66 @@ const register = async (req, res) => {
         })
     )
 }
-
-module.exports = { register }
+const login = async (req, res) => {
+    let { email, password } = req.body
+    const trimmedEmail = email.trim()
+    email = trimmedEmail
+    if (!email || !password) {
+        return (
+            res.status(400).json({
+                success: false,
+                message: "email and password is required."
+            })
+        )
+    }
+    if (!validator.isEmail(email)) {
+        return (
+            res.status(400).json({
+                success: false,
+                message: "Invalid Email"
+            })
+        )
+    }
+    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\d]).{8,}$/
+    if (!regexPassword.test(password)) {
+        return (
+            res.status(400).json({
+                success: false,
+                message: "Password should me at least 1 Capital letter , 1 small letter , 1 number and minimum 8"
+            })
+        )
+    }
+    try {
+        const emailExist = await UserModel.findOne({ email })
+        if (!emailExist) {
+            return (
+                res.status(401).json({
+                    success: false,
+                    message: "Unauthorized"
+                })
+            )
+        }
+        const passwordMacthed = await bcrypt.compare(password , emailExist.password)
+        if(!passwordMacthed){
+            return(
+                res.status(400).json({
+                    success:false,
+                    message:"email and password is invalid"
+                })
+            )
+        }
+        res.status(200).json({
+            success:true,
+            message:"Login successfully.",
+            data:emailExist
+        })
+    } catch (error) {
+        return (
+            res.status(500).json({
+                success: false,
+                message: error.message
+            })
+        )
+    }
+}
+module.exports = { register, login }
