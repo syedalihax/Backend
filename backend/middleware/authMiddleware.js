@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
     const header = req.headers.Authorization
 
     if (!header) {
@@ -27,7 +27,7 @@ const authMiddleware = (req, res, next) => {
     console.log(token)
 
     try {
-        const verifiedToken = jwt.verify(token, process.env.JWT_SECRET)
+        const verifiedToken = await jwt.verify(token, process.env.JWT_SECRET)
 
         if (!verifiedToken) {
             return (
