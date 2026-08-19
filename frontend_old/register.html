@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuthApp - Register</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                Auth<span>App</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="register.html" class="active">Register</a>
+                <a href="login.html">Login</a>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <main class="auth-page">
+
+        <div class="auth-card">
+
+            <div class="auth-header">
+                <p class="badge">Create Account</p>
+
+                <h1>Join AuthApp</h1>
+
+                <p>
+                    Create your account to get started.
+                </p>
+            </div>
+
+
+            <form id="registerForm">
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        class="name"
+                        placeholder="Enter your name"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        class="email"
+                        placeholder="Enter your email"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        class="password"
+                        placeholder="Enter your password"
+                    >
+                </div>
+
+
+                <button type="submit" class="btn primary-btn full-btn">
+                    Create Account
+                </button>
+
+                <p id="message" class="message"></p>
+
+            </form>
+
+
+            <div class="auth-footer">
+                Already have an account?
+                <a href="login.html">Login</a>
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+</body>
+</html>

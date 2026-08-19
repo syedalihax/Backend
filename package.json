@@ -1,0 +1,20 @@
+{
+  "name": "new",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "backend": "npm --prefix backend run dev",
+    "old_frontend": "live-server frontend_old",
+    "react_frontend": "npm --prefix react_frontend run dev",
+    "dev": "concurrently \"npm run backend\" \"npm run old_frontend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^10.0.5",
+    "live-server": "^1.2.2"
+  }
+}
