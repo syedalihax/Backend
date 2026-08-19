@@ -149,9 +149,8 @@ const login = async (req, res) => {
 }
 
 const profile = async (req, res) => {
-    const userData = req.userId
 
-    const verifiedUser = await UserModel.findById(userData._id)
+    const verifiedUser = await UserModel.findById(req.userId)
 
     if (!verifiedUser) {
         return (
