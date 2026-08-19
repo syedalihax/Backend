@@ -130,13 +130,13 @@ const login = async (req, res) => {
             )
         }
 
-        const token = jwt.sign({userId: emailExist._id},process.env.JWT_SECRET,{expiresIn: "7d"})
+        const token = jwt.sign({ userId: emailExist._id }, process.env.JWT_SECRET, { expiresIn: "7d" })
 
         res.status(200).json({
             success: true,
             message: "Login successfully.",
-            data: {name : emailExist.name , email: emailExist.email , role : emailExist.role},
-            token : token
+            data: { name: emailExist.name, email: emailExist.email, role: emailExist.role },
+            token: token
         })
     } catch (error) {
         return (
@@ -146,5 +146,24 @@ const login = async (req, res) => {
             })
         )
     }
+}
+
+const profile = async (req, res) => {
+    const userData = req.userId
+
+    const verifiedUser = await UserModel.findById(userData._id)
+
+    if (!verifiedUser) {
+        return (
+            res.status(404).json({
+                success: false,
+                message: "user not found"
+            })
+        )
+    }
+    res.status(200).json({
+        success:true,
+        data: verifiedUser
+    })
 }
 module.exports = { register, login }
