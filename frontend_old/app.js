@@ -205,7 +205,8 @@ if (loginForm) {
 
                 console.log("Login successful:", data);
 
-
+                localStorage.setItem("token", data.token);
+                
                 showPopup(
                     "Login Successful!",
                     "Welcome back. You are now logged in.",
