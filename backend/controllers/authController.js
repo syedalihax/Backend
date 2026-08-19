@@ -166,4 +166,4 @@ const profile = async (req, res) => {
         data: verifiedUser
     })
 }
-module.exports = { register, login }
+module.exports = { register, login , profile}
