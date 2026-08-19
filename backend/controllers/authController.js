@@ -1,6 +1,7 @@
 const UserModel = require("../models/User")
 const validator = require("validator")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 const register = async (req, res) => {
     let { name, email, password } = req.body
@@ -110,7 +111,7 @@ const login = async (req, res) => {
     }
 
     try {
-        const emailExist = await UserModel.findOne({ email })
+        const emailExist = await UserModel.findOne({ email }).select("+password")
         if (!emailExist) {
             return (
                 res.status(401).json({
@@ -128,10 +129,14 @@ const login = async (req, res) => {
                 })
             )
         }
+
+        const token = jwt.sign({userId: emailExist._id},process.env.JWT_SECRET,{expiresIn: "7d"})
+
         res.status(200).json({
             success: true,
             message: "Login successfully.",
-            data: emailExist
+            data: {name : emailExist.name , email: emailExist.email , role : emailExist.role},
+            token : token
         })
     } catch (error) {
         return (
