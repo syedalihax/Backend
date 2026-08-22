@@ -21,7 +21,7 @@ function Login() {
         }
 
         try {
-            const response = await api.post("/auth/login", {
+            const response = await api.post("/api/auth/login", {
                 email,
                 password
             });
@@ -31,7 +31,11 @@ function Login() {
             setMessage(response.data.message);
 
             // Login successful
+
             if (response.status >= 200 && response.status < 300) {
+                
+                localStorage.setItem("token", response.data.token);
+                
                 setTimeout(() => {
                     navigate("/profile");
                 }, 800);
