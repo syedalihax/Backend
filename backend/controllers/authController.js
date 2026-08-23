@@ -150,7 +150,8 @@ const login = async (req, res) => {
 
 const profile = async (req, res) => {
 
-    const verifiedUser = await UserModel.findById(req.userId)
+    try {
+        const verifiedUser = await UserModel.findById(req.userId)
 
     if (!verifiedUser) {
         return (
@@ -164,5 +165,13 @@ const profile = async (req, res) => {
         success:true,
         data: verifiedUser
     })
+    } catch (error) {
+      return(
+        res.json({
+            success:false,
+            message:error.message
+        })
+      )  
+    }
 }
 module.exports = { register, login , profile}
