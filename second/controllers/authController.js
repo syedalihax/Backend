@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 const validator = require("validator")
 const UserModel = require("../Model/userModel")
+const TokenModel = require("../Model/tokenModel")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
@@ -134,7 +135,7 @@ const login = async (req, res) => {
         const payload = {
             id: emailExist._id,
         }
-        const token = await jwt.sign(payload , process.env.JWT_SECRET , {expiresIn : "7d"})
+        const token = await jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" })
 
         res.status(200).json({
             success: true,
@@ -158,4 +159,27 @@ const login = async (req, res) => {
 
 }
 
-module.exports = { register, login }
+const logOut = async (req, res) => {
+
+    let token = req.headers.authorization
+
+    if (!token) {
+        return res.status(400).json({
+            success: false,
+            message: "token is require"
+        })
+    }
+    
+    token = token.split(" ")[1]
+
+    const removedToken = await TokenModel.create({token})
+
+    res.status(200).json({
+        success:true,
+        message: "token blacklisted successfully",
+        token : token
+    })
+
+
+}
+module.exports = { register, login, logOut }
