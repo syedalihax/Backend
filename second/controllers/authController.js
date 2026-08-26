@@ -133,8 +133,6 @@ const login = async (req, res) => {
         }
         const payload = {
             id: emailExist._id,
-            email: emailExist.email,
-            role: emailExist.role
         }
         const token = await jwt.sign(payload , process.env.JWT_SECRET , {expiresIn : "7d"})
 
@@ -159,4 +157,5 @@ const login = async (req, res) => {
 
 
 }
+
 module.exports = { register, login }
