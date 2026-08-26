@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken")
+const TokenModel = require("../Model/tokenModel")
 
 const protected = async (req, res, next) => {
 
@@ -18,7 +19,14 @@ const protected = async (req, res, next) => {
     }
     const token = userData.split(" ")[1]
     try {
-
+        const blackListed = await TokenModel.findOne({token})
+        
+        if(blackListed){
+            return res.status(400).json({
+                success:false,
+                message: "invalid token"
+            })
+        }
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         req.user = decoded
