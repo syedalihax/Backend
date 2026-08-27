@@ -169,16 +169,28 @@ const logOut = async (req, res) => {
             message: "token is require"
         })
     }
-    
+    if(!token.startsWith("Bearer ")){
+        return res.status(400).json({
+            success:false,
+            message: "token format is invalid"
+        })
+    }
     token = token.split(" ")[1]
 
-    const removedToken = await TokenModel.create({token})
+    try {
+        const removedToken = await TokenModel.create({token})
 
     res.status(200).json({
         success:true,
         message: "token blacklisted successfully",
         token : token
     })
+    } catch (error) {
+      return res.status(500).json({
+        success:false,
+        message: error.message
+      })  
+    }
 
 
 }

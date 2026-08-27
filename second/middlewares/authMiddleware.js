@@ -22,9 +22,9 @@ const protected = async (req, res, next) => {
         const blackListed = await TokenModel.findOne({token})
         
         if(blackListed){
-            return res.status(400).json({
+            return res.status(401).json({
                 success:false,
-                message: "invalid token"
+                message: "unAuthorized"
             })
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
