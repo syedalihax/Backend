@@ -11,15 +11,14 @@ const create = async (req, res) => {
         })
     }
     try {
-        const seller = await UserModel.findById({ _id : createdBy })
-        const product = await ProductModel.create({ title, description, price, category, stock, seller })
+        const {_id} = await UserModel.findById({ _id: createdBy })
+        const product = await ProductModel.create({ title, description, price, category, stock, sellerId : _id})
 
 
         res.status(201).json({
             success: true,
             message: "product created successfully",
-            product: product,
-            seller : {id : seller._id , name : seller.name}
+            product: product
         })
     } catch (error) {
         return res.status(500).json({
@@ -30,9 +29,42 @@ const create = async (req, res) => {
 
 }
 const allProducts = async (req, res) => {
-
+    try {
+        const products = await ProductModel.find()
+        res.status(200).json({
+            success: true,
+            message: "All Products fetches successfully",
+            products: products
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:error.message
+        })
+    }
 }
 const product = async (req, res) => {
+    const productId = req.params.id
+    if(!productId){
+        return res.status(400).json({
+            success:false,
+            message:"product id is required"
+        })
+    }
+    try {
+        const product = await ProductModel.findById({_id : productId})
+        res.status(200).json({
+            success:true,
+            message:"product fetch successfully",
+            product : product
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:error.message
+        })
+        
+    }
 
 }
 const update = async (req, res) => {
