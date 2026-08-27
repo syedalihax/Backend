@@ -1,4 +1,3 @@
-const mongoose = require("mongoose")
 const UserModel = require("../Model/userModel")
 
 const profile = async (req, res) => {
