@@ -7,7 +7,7 @@ const protected = require("../middlewares/authMiddleware")
 router.post("/create" , protected , adminVerify , create)
 router.get("/all" , allProducts)
 router.get("/:id" , product)
-router.put("/:id" , update)
-router.delete("/:id" , del)
+router.put("/:id" , protected , adminVerify , update)
+router.delete("/:id" , protected , adminVerify , del)
 
 module.exports = router
