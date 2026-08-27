@@ -1,4 +1,3 @@
-const mongoose = require("mongoose")
 const validator = require("validator")
 const UserModel = require("../Model/userModel")
 const TokenModel = require("../Model/tokenModel")
@@ -107,10 +106,16 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     let { email, password } = req.body
 
-    if (!validator.isEmail(email)) {
+    if (!validator.isEmail(email.toLowerCase())) {
         return res.status(400).json({
             success: false,
             message: "invalid email"
+        })
+    }
+    if(!password){
+        return res.status(400).json({
+            success:false,
+            message:"password is required"
         })
     }
 
@@ -127,7 +132,7 @@ const login = async (req, res) => {
         const matchPassword = await bcrypt.compare(password, emailExist.password)
 
         if (!matchPassword) {
-            return res.status(404).json({
+            return res.status(401).json({
                 success: false,
                 message: "email or password is invalid"
             })
