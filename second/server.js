@@ -4,10 +4,6 @@ const connectDB = require("./config/db.js")
 const authRoutes = require("./routes/authRoutes")
 const userRoutes = require("./routes/userRoutes")
 const productRoutes = require("./routes/productRoutes")
-<<<<<<< HEAD
-
-=======
->>>>>>> d02238169f99fd8665863cdfc642b78e133a2d81
 dotenv.config()
 
 const app = express()
