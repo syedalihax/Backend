@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Image Upload Test</title>
+</head>
+
+<body>
+
+    <h1>Multiple Image Upload Test</h1>
+
+    <input
+        type="file"
+        id="productImages"
+        accept="image/png, image/jpeg, image/webp"
+        multiple
+    >
+
+    <br><br>
+
+    <button type="button" id="uploadButton">
+        Upload Images
+    </button>
+
+    <pre id="result"></pre>
+
+    <script>
+
+        const input = document.getElementById("productImages")
+        const button = document.getElementById("uploadButton")
+        const result = document.getElementById("result")
+
+        button.addEventListener("click", async () => {
+
+            console.log("BUTTON CLICKED")
+
+            const files = input.files
+
+            const formData = new FormData()
+
+            for (const file of files) {
+                formData.append("productImages", file)
+            }
+
+            try {
+
+                console.log("FETCH STARTING")
+
+                const response = await fetch(
+                    "http://localhost:5000/upload-multiple",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                )
+
+                const data = await response.json()
+
+                console.log("FETCH RESPONSE RECEIVED")
+
+                result.textContent = JSON.stringify(data, null, 2)
+
+            } catch (error) {
+
+                console.log(error)
+
+                result.textContent = error.message
+
+            }
+
+        })
+
+    </script>
+
+</body>
+
+</html>
